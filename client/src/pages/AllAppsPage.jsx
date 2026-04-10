@@ -5,6 +5,9 @@ import { useLoaderData } from "react-router";
 
 const AllAppsPage = () => {
   const apps = useLoaderData();
+  const handleSort = (sortType) => {
+    console.log(sortType);
+  }
   return (
     <div>
       <title>All Apps | Hero Apps</title>
@@ -49,9 +52,9 @@ const AllAppsPage = () => {
         </form>
 
         <div className="">
-          <select className="select bg-white">
-            <option selected disabled={true}>
-              Sort by <span className="text-xs">R / S / D</span>
+          <select onChange={(e) => handleSort(e.target.value)} defaultValue="" className="select bg-white">
+            <option value="" disabled >
+              Sort by: R / S / D
             </option>
             <option value={"rating-desc"}>Ratings : High - Low</option>
             <option value={"rating-asc"}>Ratings : Low - High</option>
@@ -65,7 +68,7 @@ const AllAppsPage = () => {
       {/* Loading State */}
       <>
         {/* Apps Grid */}
-        <div className="w-11/12 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-10 gap-5">
+        <div className="w-11/12 mx-auto grid grid-cols-2 md:grid-cols-3 my-10 gap-5">
           {apps.length === 0 ? (
             <div className="col-span-full text-center py-10 space-y-10">
               <h2 className="text-6xl font-semibold opacity-60">

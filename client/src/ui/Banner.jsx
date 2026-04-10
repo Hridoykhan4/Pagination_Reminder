@@ -1,10 +1,10 @@
 import heroImg from "../assets/hero.png";
 const Banner = () => {
   return (
-    <div className="">
-      <div className="flex flex-col  justify-center items-center md:w-11/12 mx-auto pt-10  pb-0">
+    <div className="w-11/12 mx-auto">
+      <div className="flex flex-col  justify-center items-center md:w-11/12 mx-auto pt-5 md:pt-10  pb-0">
         <div className="space-y-5  text-center">
-          <h2 className="text-4xl md:text-6xl font-bold leading-20 md:max-w-xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold md:leading-20 leading-12 md:max-w-xl mx-auto">
             We Build <span className="text-secondary"> Productive</span>
             <span className="text-primary"> Apps</span>
           </h2>

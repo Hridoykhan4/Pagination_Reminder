@@ -63,11 +63,7 @@ const Header = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 gap-5">{nav}</ul>
         </div>
-        <div className="navbar-end">
-          <a className=" btn btn-secondary bg-gradient-to-r from-violate-500 to-blue-500">
-            <BsGithub></BsGithub> Contribute
-          </a>
-        </div>
+
       </div>
     </div>
   );

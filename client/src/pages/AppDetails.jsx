@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { BiDownload, BiLogoPlayStore } from "react-icons/bi";
 import { FaStar } from "react-icons/fa6";
-import { ImDownload } from "react-icons/im";
 import { MdReviews } from "react-icons/md";
 import { useLoaderData, useParams } from "react-router";
 import ReviewChart from "../ui/ReviewChart";
-import { AiOutlineLoading } from "react-icons/ai";
 import NotFound from "../ui/NotFound";
 import frame from "../utils/confetti";
 import { toast } from "react-toastify";
@@ -13,21 +11,20 @@ import { toast } from "react-toastify";
 const AppDetails = () => {
   const app = useLoaderData();
 
-  const [isInstalled, setisInstalled] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   const { id } = useParams();
 
   useEffect(() => {
     const installedIds = JSON.parse(localStorage.getItem("apps")) || [];
     if (installedIds.indexOf(id) != -1) {
-      setisInstalled(true);
+      setIsInstalled(true);
     }
   }, [id]);
 
   const {
     image,
     title,
-    // rating,
     companyName,
     description,
     size,
@@ -36,6 +33,7 @@ const AppDetails = () => {
     downloads,
     ratings,
   } = app || {};
+
 
   const finalRatings = useMemo(() => {
     if (!ratings) return [];
@@ -50,7 +48,7 @@ const AppDetails = () => {
     const installedIds = JSON.parse(localStorage.getItem("apps")) || [];
     installedIds.push(id);
     localStorage.setItem("apps", JSON.stringify(installedIds));
-    setisInstalled(true);
+    setIsInstalled(true);
     toast.success(`Yahoo ⚡!! ${title} Installed Successfully`);
     frame(3);
   };

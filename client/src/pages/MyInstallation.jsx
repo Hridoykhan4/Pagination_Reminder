@@ -12,7 +12,7 @@ const MyInstallation = () => {
   useEffect(() => {
     const apps = [];
     myAppsIds.forEach((id) => {
-      const isExist = allApps.find((app) => app._id == id);
+      const isExist = allApps.find((app) => app._id === id);
       if (isExist) {
         apps.push(isExist);
       }
@@ -32,9 +32,9 @@ const MyInstallation = () => {
     }
   };
   const onUninstall = (id, title) => {
-    const remaining = myApps.filter((app) => app.id != id);
+    const remaining = myApps.filter((app) => app._id != id);
     setMyApps([...remaining]);
-    const remainingIds = remaining.map((app) => app.id);
+    const remainingIds = remaining.map((app) => app._id);
     localStorage.setItem("apps", JSON.stringify(remainingIds));
     toast(`🗑️ ${title} un-installed from your Device`);
   };
@@ -57,10 +57,11 @@ const MyInstallation = () => {
         </h2>
         <div className="">
           <select
+            defaultValue=""
             onClick={(e) => handleSort(e.target.value)}
             className="select bg-white"
           >
-            <option selected disabled={true}>
+            <option value="" disabled={true}>
               Sort By Size
             </option>
             <option value={"asc"}>Low-High</option>

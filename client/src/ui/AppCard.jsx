@@ -22,11 +22,11 @@ const AppCard = ({ app }) => {
       to={`/apps/${_id}`}
       className="card shadow-lg cursor-pointer  bg-white hover:bg-base-200 hover:-translate-y-2 transition-all duration-200 justify-around  p-4 gap-4"
     >
-      <figure className=" pb-0">
+      <figure className="h-96 pb-0">
         <img
           src={image}
           alt="Shoes"
-          className=" h-full w-full object-cover rounded-2xl"
+          className=" h-full object-cover w-full  rounded-2xl"
         />
       </figure>
       <div className="">

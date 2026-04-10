@@ -8,7 +8,7 @@ const Home = () => {
       <section>
         <Banner></Banner>
       </section>
-      <section className="py-10 bg-gradient-to-tl to-[#632EE3] from-[#9F62F2] ">
+      <section className="py-10 bg-gradient-to-tl to-primary from-[#9F62F2] ">
         <Stats></Stats>
       </section>
       <section className="py-16">

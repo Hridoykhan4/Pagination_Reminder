@@ -8,7 +8,6 @@ import { useEffect } from "react";
 function App() {
   const { state } = useNavigation();
   const { pathname } = useLocation();
-
   // 🔹 State to control initial loading
 
   useEffect(() => {
