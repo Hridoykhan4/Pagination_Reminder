@@ -2,23 +2,32 @@ const { ObjectId } = require("mongodb");
 
 const getApps = async (req, res, appsCollection) => {
   try {
-    const limit = Number(req?.query?.limit) || 10; 
-    console.log(limit);
-    const apps = await appsCollection
-      .find()
-      .project({
-        description: 0,
-        rating: 0,
-        companyName: 0,
-        size: 0,
-        reviews: 0,
-        ratings: 0,
-      })
-      .sort({ ratingAvg: -1 }).limit(limit)
-      .toArray();
-    res.send(apps);
+    const { limit = 0, page = 0 } = req.query;
+    const requestedLimit = parseInt(limit, 10) || 8;
+    const limitNum = Math.max(1, Math.min(requestedLimit, 100));
+    const pageNum = Math.max(1, parseInt(page, 10));
+    const skip = (pageNum - 1) * 10 || 0;
+    const projection = {
+      description: 0,
+      rating: 0,
+      companyName: 0,
+      size: 0,
+      reviews: 0,
+      ratings: 0,
+    };
+    const [totalApps, apps] = await Promise.all([
+      appsCollection.countDocuments(),
+      await appsCollection
+        .find()
+        .project(projection)
+        .skip(skip)
+        .limit(limitNum)
+        .toArray(),
+    ]);
+
+    res.status(200).send({totalApps, apps});
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching apps:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

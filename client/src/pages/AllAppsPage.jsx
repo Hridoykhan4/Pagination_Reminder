@@ -1,10 +1,25 @@
 import { DiVisualstudio } from "react-icons/di";
 import AppCard from "../ui/AppCard";
 
-import { useLoaderData } from "react-router";
+import { useEffect, useState } from "react";
 
 const AllAppsPage = () => {
-  const apps = useLoaderData();
+  const [apps, setApps] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(0)
+  const [totalApps, setTotalApps] = useState(0)
+  // http://localhost:5000/apps?page=3&skip=10&limit=4
+  useEffect(() => {
+    fetch(`http://localhost:5000/apps?page=${currentPage}&limit=10`)
+      .then(res => res.json())
+      .then(data => {
+        setApps(data.apps)
+        setTotalApps(data.totalApps)
+        setTotalPages(Math.ceil(data.totalApps / 10))
+      })
+  }, [currentPage])
+
+
   const handleSort = (sortType) => {
     console.log(sortType);
   }
@@ -12,7 +27,7 @@ const AllAppsPage = () => {
     <div>
       <title>All Apps | Hero Apps</title>
       {/* Header */}
-      <div className="py-16">
+      <div className="md:py-16 py-10">
         <h2 className="text-4xl font-bold text-center text-primary flex justify-center gap-3">
           Our All Applications
           <DiVisualstudio size={48} className="text-secondary"></DiVisualstudio>
@@ -24,8 +39,11 @@ const AllAppsPage = () => {
       {/* Search and Count */}
       <div className="w-11/12 mx-auto flex flex-col-reverse lg:flex-row gap-5 items-start justify-between lg:items-end mt-10">
         <div>
+          <h4 className="text-lg underline font-bold">
+            Total Apps: ({totalApps})
+          </h4>
           <h2 className="text-lg underline font-bold">
-            ({apps.length}) Apps Found
+            ({apps.length}) Apps Found for Page - {currentPage}
           </h2>
         </div>
 
@@ -66,9 +84,46 @@ const AllAppsPage = () => {
         </div>
       </div>
       {/* Loading State */}
+
+      {/* Pagination Logic */}
+      <div className="mt-5 flex flex-wrap gap-4 justify-center">
+        {currentPage > 1 && (
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="btn"
+          >
+            Prev
+          </button>
+        )}
+        {
+          [...Array(totalPages).keys()].map(i => (
+            <button
+              onClick={() => setCurrentPage(i + 1)}
+              className={`btn ${i + 1 === currentPage && "btn-primary"}`}
+            >
+              {i + 1}
+            </button>
+          ))
+        }
+
+        {
+          currentPage < totalPages && <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            className="btn"
+          >
+            Next
+          </button>
+        }
+      </div>
+
+      {/* Pagination Logic */}
+
       <>
         {/* Apps Grid */}
-        <div className="w-11/12 mx-auto grid grid-cols-2 md:grid-cols-3 my-10 gap-5">
+        <div className="flex justify-end w-11/12 mx-auto">
+        <p className=" mt-5 max-w-20 bg-accent rounded-md p-3 ">{currentPage} / {totalPages}</p>
+        </div>
+        <div className="w-11/12 mx-auto grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 my-10 gap-5">
           {apps.length === 0 ? (
             <div className="col-span-full text-center py-10 space-y-10">
               <h2 className="text-6xl font-semibold opacity-60">
@@ -81,6 +136,9 @@ const AllAppsPage = () => {
           )}
         </div>
       </>
+
+
+
     </div>
   );
 };
