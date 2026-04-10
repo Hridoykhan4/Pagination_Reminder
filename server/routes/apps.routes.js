@@ -1,5 +1,5 @@
 const express = require("express");
-const { getApps, getSingleApp } = require("../controllers/apps.controller");
+const { getApps, getSingleApp, getBulkApps } = require("../controllers/apps.controller");
 const router = express.Router();
 
 const appRoutes = (appsCollection) => {
@@ -9,16 +9,15 @@ const appRoutes = (appsCollection) => {
     getApps(req, res, appsCollection).catch(next),
   );
 
-
-  
   router.get("/:id", (req, res, next) =>
     getSingleApp(req, res, appsCollection).catch(next),
   );
 
-
+  router.post("/bulk", (req, res) =>
+    getBulkApps(req, res, appsCollection),
+  );
 
   return router;
 };
 
-
-module.exports = {appRoutes}
+module.exports = { appRoutes };

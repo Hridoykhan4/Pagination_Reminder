@@ -96,4 +96,32 @@ const getSingleApp = async (req, res, appsCollection) => {
   }
 };
 
-module.exports = { getApps, getSingleApp };
+// In your controller file
+const getBulkApps = async (req, res, appsCollection) => {
+  try {
+    const { ids } = req.body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ error: "ids must be a non-empty array" });
+    }
+
+    const validIds = ids
+      .filter(id => ObjectId.isValid(id))
+      .map(id => new ObjectId(id));
+
+    if (validIds.length === 0) {
+      return res.status(400).json({ error: "No valid IDs provided" });
+    }
+
+    const apps = await appsCollection
+      .find({ _id: { $in: validIds } })
+      .toArray();
+
+    res.status(200).json({ apps });
+  } catch (error) {
+    console.error("Error in bulk fetch:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { getApps, getSingleApp, getBulkApps };
