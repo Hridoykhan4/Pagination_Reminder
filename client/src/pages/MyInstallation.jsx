@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const MyInstallation = () => {
   const [myAppsIds] = useState(JSON.parse(localStorage.getItem("apps")) || []);
-  const allApps = useLoaderData();
+  const allApps = useLoaderData().apps;
   const [myApps, setMyApps] = useState([]);
 
   useEffect(() => {
@@ -22,13 +22,11 @@ const MyInstallation = () => {
 
   const handleSort = (type) => {
     if (type == "asc") {
-      const sorted = myApps.sort((a, b) => a.size - b.size);
-      console.log(type, sorted);
-      setMyApps([...sorted]);
+      const sorted = [...myApps].sort((a, b) => a.size - b.size);
+      setMyApps(sorted);
     } else if (type == "desc") {
-      const sorted = myApps.sort((a, b) => b.size - a.size);
-      console.log(type, sorted);
-      setMyApps([...sorted]);
+      const sorted = [...myApps].sort((a, b) => b.size - a.size);
+      setMyApps(sorted);
     }
   };
   const onUninstall = (id, title) => {

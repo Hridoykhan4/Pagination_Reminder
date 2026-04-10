@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: "/installations",
         element: <MyInstallation></MyInstallation>,
-        loader: () => fetch("http://localhost:5000/apps"),
+        loader: () => fetch(`http://localhost:5000/apps?limit=0`),
       },
       {
         path: "/blogs",
